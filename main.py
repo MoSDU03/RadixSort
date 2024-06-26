@@ -1,65 +1,22 @@
-def countingSortForRadixSort(inputArray, placeValue):
+def radix_sort_complexity(n):
+    # Range of numbers is [0, n^3)
+    # Digits are 3, base is n since range is 0 to n-1 for each digit
+    d = 3  # Number of digits
+    b = n  # Base (since each digit can be 0 to n-1)
+    
+    # Calculate the time complexity
+    complexity = d * (n + b)
+    
+    # Display the time complexity in Theta notation
+    if complexity == n:
+        return "Θ(n)"
+    elif complexity == n * (n + n):
+        return "Θ(n log n)"
+    elif complexity == n * n:
+        return "Θ(n^2)"
+    else:
+        return "Θ(n)"
 
-    """
-        linear sort algorithm.
-    :param placeValue: the base
-    :param inputArray: the input array to be sorted
-    :return: sorted array
-    """
-    count = [0] * 10
-    for i in range(len(inputArray)):
-        """
-        counting the iteration of each number in the array
-        """
-        placeElement = (inputArray[i] // placeValue) % 10
-        count[placeElement] += 1
-
-    for i in range(1, 10):
-        """
-        the sum of the elements less than x.
-        it's used to know where to start to put the range of this number
-        """
-        count[i] += count[i-1]
-    outputArray = [0] * len(inputArray)
-    for i in range(len(inputArray) - 1, -1, -1):
-        """
-        put the sorted elements in the output array.
-        """
-        placeElement = (inputArray[i] // placeValue) % 10
-        outputArray[count[placeElement] - 1] = inputArray[i]
-        count[placeElement] -= 1
-    return outputArray
-
-
-def numLength(n):
-    """
-
-    :param n: the number we want its length
-    :return: the length of the num
-    """
-    return len(str(n))
-
-
-def getDigit(n, d):
-    """
-    get the digit d in the number n
-    // ==> floor division
-    """
-    for i in range(d - 1):
-        n //= 10
-    return n % 10
-
-
-def radixSort(inputArray):
-    maxElement = max(inputArray)  # the max element in the input array
-    num_digits = numLength(maxElement)  # the max number of digit for the max number in the input array
-    placeValue = 1  # the beginning base least significant bit (LSB)
-    outputArray = inputArray  # create output array the same size as input array
-    for d in range(num_digits):  # looping the number of the digit
-        outputArray = countingSortForRadixSort(outputArray, placeValue)  # sorting for the base place value
-        placeValue *= 10  # increase the base * 10
-    return outputArray
-
-
-arr = [2, 20, 61, 997, 1, 619]
-print(radixSort(arr))
+# Test the function with an example
+n = 100  # Example number of integers
+print(f"Worst-case time complexity for Radix Sort with n={n}: {radix_sort_complexity(n)}")
